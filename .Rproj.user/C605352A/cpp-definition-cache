@@ -1,0 +1,86 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 6,
+                "file" : "/Users/tianjiewang/Documents/glidars/src/func_solve.cpp",
+                "kind" : 6,
+                "line" : 20,
+                "name" : "quadprog_solveR(const MatrixXd &, const VectorXd &, const MatrixXd &)",
+                "parent_name" : "",
+                "usr" : "c:@F@quadprog_solveR#&1$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#&1$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "/Users/tianjiewang/Documents/glidars/src/func_solve.cpp",
+                "kind" : 6,
+                "line" : 34,
+                "name" : "sum_risk(const MatrixXd &, const VectorXd &, const VectorXd &, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@sum_risk#&1$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#&1$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S2_#d#"
+            },
+            {
+                "column" : 8,
+                "file" : "/Users/tianjiewang/Documents/glidars/src/func_solve.cpp",
+                "kind" : 6,
+                "line" : 52,
+                "name" : "logPL_C(const MatrixXd &, const MatrixXd &, const VectorXd &, const VectorXd &)",
+                "parent_name" : "",
+                "usr" : "c:@F@logPL_C#&1$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#S0_#&1$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S2_#"
+            },
+            {
+                "column" : 10,
+                "file" : "/Users/tianjiewang/Documents/glidars/src/func_solve.cpp",
+                "kind" : 6,
+                "line" : 84,
+                "name" : "iter_pen(const MatrixXd &, const VectorXd &, const MatrixXd &, const double, const VectorXd &, const int, const int, const VectorXd &, const int, const double, const bool)",
+                "parent_name" : "",
+                "usr" : "c:@F@iter_pen#&1$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#&1$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S0_#1d#S2_#1I#1I#S2_#1I#1d#1b#"
+            },
+            {
+                "column" : 8,
+                "file" : "/Users/tianjiewang/Documents/glidars/src/func_solve.cpp",
+                "kind" : 6,
+                "line" : 146,
+                "name" : "val_pen(const MatrixXd, const VectorXd &, const int, const int, const VectorXd)",
+                "parent_name" : "",
+                "usr" : "c:@F@val_pen#1$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#&1$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#1I#1I#1S2_#"
+            },
+            {
+                "column" : 10,
+                "file" : "/Users/tianjiewang/Documents/glidars/src/func_solve.cpp",
+                "kind" : 6,
+                "line" : 166,
+                "name" : "roundvec(const VectorXd &, const double)",
+                "parent_name" : "",
+                "usr" : "c:@F@roundvec#&1$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#1d#"
+            },
+            {
+                "column" : 10,
+                "file" : "/Users/tianjiewang/Documents/glidars/src/func_solve.cpp",
+                "kind" : 6,
+                "line" : 190,
+                "name" : "lasso_tree_single(const MatrixXd &, const MatrixXd &, const MatrixXd &, const int, const int, const VectorXd &, const double, const VectorXd &, const VectorXd &, const int, const double, const bool, const bool)",
+                "parent_name" : "",
+                "usr" : "c:@F@lasso_tree_single#&1$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#S0_#S0_#1I#1I#&1$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#1d#S2_#S2_#1I#1d#1b#1b#"
+            },
+            {
+                "column" : 10,
+                "file" : "/Users/tianjiewang/Documents/glidars/src/func_solve.cpp",
+                "kind" : 6,
+                "line" : 271,
+                "name" : "lasso_tree_multi(const MatrixXd &, const MatrixXd &, const MatrixXd &, const int, const int, const VectorXd &, const VectorXd &, const VectorXd &, const VectorXd &, const int, const double, const bool)",
+                "parent_name" : "",
+                "usr" : "c:@F@lasso_tree_multi#&1$@N@Eigen@C@Matrix>#d#VI-1#VI-1#VI0#VI-1#VI-1#S0_#S0_#1I#1I#&1$@N@Eigen@C@Matrix>#d#VI-1#VI1#VI0#VI-1#VI1#S2_#S2_#S2_#1I#1d#1b#"
+            }
+        ],
+        "file" : "/Users/tianjiewang/Documents/glidars/src/func_solve.cpp",
+        "file_last_write" : 1581451135
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "/Users/tianjiewang/Documents/glidars/src/glidars_types.h",
+        "file_last_write" : 1581448408
+    }
+]
