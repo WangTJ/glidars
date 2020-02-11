@@ -1,4 +1,4 @@
-# GLIDARS
+# GLIDARS:Group Lasso assisted Integrated Data Analysis for Risk Stratification
 
 ![alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Malt_en_grain.JPG/1920px-Malt_en_grain.JPG)
 
