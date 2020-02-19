@@ -62,7 +62,7 @@ plot.param <- function(beta, lambda.index = NULL)
       betaframe <- data.frame(G = G, T = T, N = N, beta = as.vector(beta[lambda.index, ]))
     }
 
-    ggplot(betaframe, aes(x = N, y = T)) + geom_raster(aes(fill = beta),color = "grey50") + coord_fixed(ratio = 1) + facet_wrap(~G)
+    ggplot(betaframe, aes(x = N, y = T)) + geom_raster(aes(fill = beta)) + coord_fixed(ratio = 1) + facet_wrap(~G)
   }
 
 }
@@ -108,6 +108,7 @@ as.param <- function(beta.vec, p, q, m = 1, G.levels = NULL, lambda = NULL)
 #'@param lambda.index when the param beta contains multiple values of the tuning parameter, the user need to
 #'  specify the index of the tuning parameter to be summaried
 #'
+#'@return a matrix describe he combined staging rules
 #'@export
 summary.param <- function(beta, lambda.index = NULL){
   lambda <- attr(beta, "lambda")
@@ -120,7 +121,7 @@ summary.param <- function(beta, lambda.index = NULL){
     G.levels <- attr(beta, "Glevels")
     if(is.null(G.levels)) G.levels <- 1:m
     Tnames <- paste("T", 1:p, sep = "")
-    Nnames <- paste("N", 1:q, sep = "")
+    Nnames <- paste("N", 0:(q-1), sep = "")
     cat("lambda = ", lambda, "\n")
     for(o in 1:m){
       cat("Group ", G.levels[o], "\n")
@@ -130,6 +131,33 @@ summary.param <- function(beta, lambda.index = NULL){
       colnames(beta0) <- Nnames
       print(beta0)
     }
+
+    nStage <- 1
+    if (length(lambda)<=1){
+      beta.stage <- (beta[1:(p*q)])^2
+      for(o in 2:m){
+        beta.stage <- beta.stage + (beta[((o-1)*p*q+1):(o*p*q)])^2
+      }
+      beta.stage <- sqrt(beta.stage)
+    }
+    else
+    {
+      beta.stage <- (beta[lambda.index,1:(p*q)])^2
+      for(o in 2:m){
+        beta.stage <- beta.stage + (beta[lambda.index,((o-1)*p*q+1):(o*p*q)])^2
+      }
+      beta.stage <- sqrt(beta.stage)
+    }
+    nStage <- length(unique(beta.stage))
+    beta.stage <- as.factor(beta.stage)
+    levels(beta.stage) = 1:nStage
+    beta.stage = as.integer(beta.stage)
+    beta.stage <- matrix(beta.stage, p, q)
+    rownames(beta.stage) <- Tnames
+    colnames(beta.stage) <- Nnames
+    cat("Combined staging rules \n")
+    print(beta.stage)
+    return(beta.stage)
   }
 }
 
@@ -148,12 +176,12 @@ DoF.param <- function(beta){
   nlambda <- length(attr(beta, "lambda"))
   if(nlambda <= 1){
     dof <- NULL
-    for (o in 1:m) dof = c(dof, length(unique(beta[(p*q*(o-1)+1):(p*q*o)])))
+    for (o in 1:m) dof = c(dof, 2+length(unique(beta[(p*q*(o-1)+1):(p*q*o)])))
   }else{
     dof <- NULL
     for (j in 1:nlambda){
       d <- NULL
-      for (o in 1:m) d = c(d, length(unique(beta[j, (p*q*(o-1)+1):(p*q*o)])))
+      for (o in 1:m) d = c(d, 2+length(unique(beta[j, (p*q*(o-1)+1):(p*q*o)])))
       dof <- rbind(dof, d)
     }
   }
@@ -292,51 +320,45 @@ similarity <- function(beta0, beta){
 #'@param y time to events, in vector
 #'@param cen censor indicator, in vector
 #'@param ncol number of columns when plotting curves for each trial
-#'@param legend.pos position of the legend, "bottomleft" or "topright"
+#'@param legend.pos position of the legend, "bottomright" or "topright"
+#'@param trans transformation function of plot
 #'
 #'@import survival
 #'
 #'@export
-PlotCurve <- function(beta, G, T, N, y, cen, ncol = 2, legend.pos = "bottomleft")
+
+PlotCurve = function(beta, G, T, N, y, cen, ncol = 2, legend.pos = "bottomright")
+
 {
+  library(survival)
   p <- attr(beta, "p")
   q <- attr(beta, "q")
   m <- attr(beta, "m")
   G <- as.factor(G)
   Glevels <- levels(G)
   if(m != length(Glevels)) cat("Number of groups in beta and in G do not match!")
-  nStage <- 1
-  beta.stage <- NULL
-  for(o in 1:m){
-    beta1 <- beta[((o-1)*p*q+1):(o*p*q)]
-    if(length(unique(beta1)) > nStage){
-      beta.stage <- beta1
-      nStage <- length(unique(beta1))
-    }
-  }
-  beta.stage <- as.factor(beta.stage)
-  levels(beta.stage) <- paste0("Stage", 1:nStage)
-  beta.stage <- matrix(beta.stage, p, q)
+
+  beta.stage = summary(beta)
 
   T.ind <- as.factor(T) #the indices of T starting from 1
   levels(T.ind) <- 1:(nlevels(T.ind))
   N.ind <- as.factor(N)
   levels(N.ind) <- 1:(nlevels(N.ind))
   stage <- beta.stage[cbind(T.ind, N.ind)]
-  stage <- as.factor(stage)
+  stage <- ordered(stage)
   df <- data.frame(G = G, time = y, cen = cen, stage = stage)
 
   oldpar <- par(no.readonly = TRUE)
   par(mfrow = c(ceiling(nlevels(G)/ncol), ncol))
 
+  colorList = palette()
   for(trial in Glevels){
     df.sub <- df[df$G == trial, ]
     fit <- survfit(Surv(time, cen) ~ stage, data = df.sub)
     par(xpd = TRUE)
-    plot(fit, mark.time = FALSE, lty = 1, col = 1:nlevels(stage), xlab = "Time",
+    plot(fit, mark.time = FALSE, lty = 1, col = colorList[sort(unique(df.sub$stage))], xlab = "Time",
          ylab = "Survival")
-    #legend(max(df.sub$time), 1, levels(stage), col = 1:nlevels(stage), lty = 1, cex = 0.5)
-    legend(legend.pos, levels(stage), col = 1:nlevels(stage), lty = 1, cex = 0.6, bty = "n")
+    legend(legend.pos, levels(stage), col = colorList[1:nlevels(stage)], lty = 1, cex = 0.6, bty = "n", xjust = 0, yjust = 0.5)
     title(trial)
   }
   par(oldpar)
