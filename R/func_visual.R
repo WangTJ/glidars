@@ -157,8 +157,8 @@ summary.param <- function(beta, lambda.index = NULL){
     colnames(beta.stage) <- Nnames
     cat("Combined staging rules \n")
     print(beta.stage)
-    return(beta.stage)
   }
+  return(beta.stage)
 }
 
 #'Function to calculate the degrees of freedom for a "param" beta
