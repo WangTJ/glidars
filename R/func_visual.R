@@ -135,16 +135,20 @@ summary.param <- function(beta, lambda.index = NULL){
     nStage <- 1
     if (length(lambda)<=1){
       beta.stage <- (beta[1:(p*q)])^2
-      for(o in 2:m){
-        beta.stage <- beta.stage + (beta[((o-1)*p*q+1):(o*p*q)])^2
+      if (m>1){
+        for(o in 2:m){
+          beta.stage <- beta.stage + (beta[((o-1)*p*q+1):(o*p*q)])^2
+        }
       }
       beta.stage <- sqrt(beta.stage)
     }
     else
     {
       beta.stage <- (beta[lambda.index,1:(p*q)])^2
-      for(o in 2:m){
-        beta.stage <- beta.stage + (beta[lambda.index,((o-1)*p*q+1):(o*p*q)])^2
+      if (m>1){
+        for(o in 2:m){
+          beta.stage <- beta.stage + (beta[lambda.index,((o-1)*p*q+1):(o*p*q)])^2
+        }
       }
       beta.stage <- sqrt(beta.stage)
     }
@@ -157,8 +161,8 @@ summary.param <- function(beta, lambda.index = NULL){
     colnames(beta.stage) <- Nnames
     cat("Combined staging rules \n")
     print(beta.stage)
+    return(beta.stage)
   }
-  return(beta.stage)
 }
 
 #'Function to calculate the degrees of freedom for a "param" beta
