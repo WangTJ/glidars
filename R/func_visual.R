@@ -264,6 +264,9 @@ bic <- function(beta, G, T, N, y, cen)
 #'  proportion of the correct boundaries; (2) sse, sum of squre error of all the differences
 #'  on the boundary, with repect to beta0; (3) sim.vec, a vector indicating which boundaries
 #'  are the same.
+#'
+#'@import Matrix
+#'
 #'@export
 similarity <- function(beta0, beta){
   p <- attr(beta, "p")
@@ -290,28 +293,27 @@ similarity <- function(beta0, beta){
     for(o in 1:(m-1)) Apo <- Matrix::bdiag(Apo, Apo0)
   Apo <- as.matrix(Apo)
 
-  bound0.val <- Apo %*% beta0
+  bound0.val <- as.matrix(tcrossprod(as(Apo,'dgCMatrix') , as.numeric(beta0)))
   bound0.ind <- (bound0.val) == 0
 
   if(nlambda <= 1){
-    bound.val <- Apo %*% beta
+    bound.val <- as.matrix(tcrossprod(as(Apo,'dgCMatrix') , as.numeric(beta)))
     bound.ind <- (bound.val) == 0
     sim.vec <- as.vector(bound.ind == bound0.ind)
-    sim <- sum(sim.vec)/(nb*m)
-    sse <- crossprod(bound.val - bound0.val)
+    sim <- sum(sim.vec,na.rm=T)/sum(!is.na(sim.vec))
+    sse <- sum((bound.val - bound0.val)^2,na.rm=T)
   }else{
     sim <- NULL
     sse <- NULL
     sim.vec <- NULL
     for(j in 1:nlambda){
-      bound.val <- Apo %*% beta[j, ]
+      bound.val <- as.matrix(tcrossprod(as(Apo,'dgCMatrix') , as.numeric(beta[j,])))
       bound.ind <- (bound.val) == 0
       sim.v <- as.vector(bound.ind == bound0.ind)
-      sim <- c(sim, sum(sim.v))
+      sim <- c(sim, sum(sim.vec,na.rm=T)/sum(!is.na(sim.vec)))
       sim.vec <- rbind(sim.vec, sim.v)
-      sse <- c(sse, crossprod(bound.val - bound0.val))
+      sse <- c(sse, sum((bound.val - bound0.val)^2,na.rm=T))
     }
-    sim <- sim/(nb*m)
   }
   return(list(similarity = sim, sse = sse, sim.vec = sim.vec))
 }
