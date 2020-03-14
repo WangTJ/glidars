@@ -3,9 +3,7 @@ Title: Cancer staging with meta-analysis
 Version: 0.0.0.9000
 Authors@R: c(person("Tianjie", "Wang", email = "wangtj929@gmail.com", role = c("aut","cre")), person("Wenshuo", "Liu", email = "wenshuoliu@gmail.com", 
   role = c("aut")))
-Description: Categorize cancer patients according to risk, with the Lasso-tree
-    method (\url{http://www.ncbi.nlm.nih.gov/pubmed/23907780}), and many similar
-    datasets.
+Description: GLIDARS: Group Lasso assisted Integrated Data Analysis for Risk Stratification
 Depends:
     R (>= 3.3.0)
 License: GPL-3
