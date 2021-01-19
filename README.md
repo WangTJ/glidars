@@ -10,9 +10,10 @@ The functionality of the penalty can be explained from two aspects: (1) The "ada
 
 ## Installation
 
+```
 library(devtools)
-
 install_github("WangTJ/glidars")
+```
 
 ## Structure of Repositories
 
