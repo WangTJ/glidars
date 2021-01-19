@@ -3,26 +3,25 @@ library(glidars)
 # create simulated dataset
 
 ##p: number of A categories, q: number of B categories, m: number of studies
-p=3 ;q=4;m=2
-v1 = c(0, 1, 3, 5)/2
-v2 = v1*1.5
-partition = c(1, 2, 2, 2, 2, 2, 3, 3, 4, 3, 3, 4)
-## coefficient grid
-grid1 = matrix(v1[partition], p , q)
-grid2 = matrix(v2[partition], p , q)
-
-## patient distribution
-p1 = matrix(rep(1/(p*q) , p*q) , p , q)
-p1 = outer(c(0.5, 0.3, 0.2), c(0.4, 0.3, 0.2, 0.1))
-p2 = outer(c(0.2, 0.3, 0.5), c(0.1, 0.15, 0.25, 0.5))
-p2 = outer(c(0.5, 0.5, 0.), c(0.25, 0.25, 0.25, 0.25))
-
-
+p=4 ;q=4;m=2
+v1 = c(0,0.5,1.5,2.5)
+v2 = c(0,0.75,2.25,3.75)
+partition1 = c(1, 1, 3, 3, 1, 2, 3, 4, 1, 2, 3, 4, 2, 2, 3, 4)
+partition2 = c(1, 1, 3, 3, 1, 2, 3, 4, 1, 2, 3, 4, 2, 2, 3, 4)
+# coefficient grid
+grid1 = matrix(v1[partition1], p , q)
+grid2 = matrix(v2[partition2], p , q)
+  
+# patient distribution
+p1 = outer(c(0.4, 0.3, 0.2,0.1), c(0.4, 0.3, 0.2,0.1))
+p2 = outer(c(0.1, 0.2, 0.3,0.4), c(0.1, 0.2, 0.3,0.4))
+    
 beta.real = as.param(c(as.vector(grid1), as.vector(grid2)), p, q, m)
-
+  
 ## sample sizes
-n1 = 100; n2 = 100;
+n1 = 600; n2 = 600;
 n = n1 + n2
+  
 
 ## generate datasets
 data1 = dataset.gen(grid1, p1 , n1, cen.prob = 0.2, setseed = TRUE)
