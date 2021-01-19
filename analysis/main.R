@@ -1,6 +1,6 @@
 library(glidars)
 
-# create simulated dataset
+# create simulated dataset with same structure of scenario 1 in the paper
 
 ##p: number of A categories, q: number of B categories, m: number of studies
 p=4 ;q=4;m=2
