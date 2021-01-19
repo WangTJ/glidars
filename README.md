@@ -16,5 +16,6 @@ install_github("WangTJ/glidars")
 
 ## Structure of Repositories
 
-For your inference, the functions help documents can be found in <https://github.com/WangTJ/glidars/tree/master/man>, the example code can be found in <https://github.com/WangTJ/glidars/tree/master/analysis/main.R>
+Source codes of functions in R can be found in <https://github.com/WangTJ/glidars/tree/master/R>, functinos in C++ can be forund in <https://github.com/WangTJ/glidars/tree/master/src>. The functions help documents can be found in <https://github.com/WangTJ/glidars/tree/master/man>. The example analysis code can be found in <https://github.com/WangTJ/glidars/tree/master/analysis/main.R>
 
+A simulated data is put in <https://github.com/WangTJ/glidars/tree/master/analysis/simu_data.csv>
