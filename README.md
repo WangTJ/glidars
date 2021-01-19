@@ -26,3 +26,48 @@ The functions help documents can be found in <https://github.com/WangTJ/glidars/
 The example analysis code can be found in <https://github.com/WangTJ/glidars/tree/master/analysis/main.R>.
 
 A simulated data is put in <https://github.com/WangTJ/glidars/tree/master/analysis/simu_data.csv>
+
+## Example code
+
+```
+# load package
+library(glidars)
+
+# load simulated data
+data = read.csv('simu_data.csv')
+
+# initial beta 
+inibeta0 <- seq(0, 3, length.out=p*q)
+inibeta <- rep(inibeta0, m)
+
+# glidars with lambda equal to 6.25
+beta.out <- lasso.tree(data$G, data$T, data$N, data$time, data$status, lambda=6.25, inibeta, maxiter = 100, eps = 1e-2)
+
+# plot staging structure
+plot(beta.out)
+
+# plot Kaplan-Meier curve startified by groups
+PlotCurve(beta.out, data$G, data$T, data$N, data$time, data$status, ncol = 2)
+
+# search best lambda in a rangee
+lambda <- n*exp(seq(-9.5, -3.3, length.out = 20))
+beta.bic <- lasso.tree.bic(data$G, data$T, data$N, data$time, data$status, lambda, inibeta, maxiter = 100, eps = 1e-2)
+
+# plot trace of bic
+plot(lambda, beta.bic$bics)
+
+# calculate similairity to true grid
+similarity(beta.bic$beta.opt , beta.real)
+
+# plot trace of similarity to the true parameter
+plot(lambda, similarity(beta.real, beta.bic$beta.seq)$similarity)
+
+# result with best bic
+plot(beta.bic$beta.opt)
+# Kaplan-Meier curve
+PlotCurve(beta.bic$beta.opt, data$G, data$T, data$N, data$time, data$status, ncol = 2)
+
+# Plot for specific lambda, like lambda[14]
+plot(as.param(beta.bic$beta.seq[14, ], p, q, m))
+plotCurve(as.param(beta.bic$beta.seq[14, ], p, q, m), data$G, data$T, data$N, data$time, data$status, ncol = 2)
+```
